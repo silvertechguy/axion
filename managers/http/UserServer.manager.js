@@ -69,6 +69,7 @@ module.exports = class UserServer {
         app.use(express.urlencoded({extended: true}));
         app.use('/static', express.static('public'));
         app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(YAML.load('./swagger/swagger.yaml')));
+        app.use(cors());
 
         // auth
         app.post('/api/auth/register', async (req, res, next) => {
