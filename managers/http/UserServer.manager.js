@@ -69,7 +69,10 @@ module.exports = class UserServer {
         app.use(express.urlencoded({extended: true}));
         app.use('/static', express.static('public'));
         app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(YAML.load('./swagger/swagger.yaml')));
-        app.use(cors());
+        app.use(cors({
+            origin: ['http://ec2-54-91-232-205.compute-1.amazonaws.com:5111', 'http://localhost:5111'],
+            methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+        }));
 
         // auth
         app.post('/api/auth/register', async (req, res, next) => {
