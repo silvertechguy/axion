@@ -23,6 +23,7 @@ services:
       - "5111:5111"
     volumes:
       - .:/usr/src/app
+      - /usr/src/app/node_modules
     depends_on:
       - redis_db
       - mongo_db
