@@ -18,6 +18,11 @@ servers:
     variables:
       port:
         default: '5111'
+  - url: http://ec2-54-91-232-205.compute-1.amazonaws.com:{port}/api
+    description: aws ec2 server
+    variables:
+      port:
+        default: '5111'
 paths:
   /auth/register:
     post:
