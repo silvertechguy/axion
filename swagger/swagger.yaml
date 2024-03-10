@@ -1,0 +1,661 @@
+openapi: 3.0.0
+info:
+  title: Axion API
+  version: 1.0.0
+  description: API for managing schools, classrooms, students, and users.
+tags:
+  - name: Authentication
+    description: Operations for user authentication and registration
+  - name: Schools
+    description: Operations related to schools
+  - name: Classrooms
+    description: Operations related to classrooms within schools
+  - name: Students
+    description: Operations related to students within classrooms
+servers:
+  - url: http://localhost:{port}/api
+    description: local server
+    variables:
+      port:
+        default: '5111'
+paths:
+  /auth/register:
+    post:
+      tags:
+        - Authentication
+      summary: User Registration
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: "alifadda"
+                email:
+                  type: string
+                  example: "alifadda@mail.com"
+                password:
+                  type: string
+                  example: "123456789"
+                role:
+                  type: string
+                  enum: [ superadmin, schooladmin ]
+      responses:
+        '200':
+          description: User registered successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: ""
+                  errors:
+                    type: array
+                    example: [ ]
+                  data:
+                    type: object
+                    properties:
+                      longToken:
+                        type: string
+                        example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWVjNjNiNDNlNzA4M2RmZjQ0MzZkOTMiLCJpYXQiOjE3MTAwMTA2OTAsImV4cCI6MTgwNDY4MzQ5MH0.tt-KOzvwGI7H-lx1z0PfXYvLx-qp75396BL2eZ-bSnc"
+                      user:
+                        $ref: '#/components/schemas/User'
+  /auth/login:
+    post:
+      tags:
+        - Authentication
+      summary: User Login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: "alifadda@mail.com"
+                password:
+                  type: string
+                  example: "123456789"
+      responses:
+        '200':
+          description: User logged in successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: ""
+                  errors:
+                    type: array
+                    example: [ ]
+                  data:
+                    type: object
+                    properties:
+                      longToken:
+                        type: string
+                        example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWVjNjNiNDNlNzA4M2RmZjQ0MzZkOTMiLCJpYXQiOjE3MTAwMTA2OTAsImV4cCI6MTgwNDY4MzQ5MH0.tt-KOzvwGI7H-lx1z0PfXYvLx-qp75396BL2eZ-bSnc"
+                      user:
+                        $ref: '#/components/schemas/User'
+  /schools:
+    post:
+      tags:
+        - Schools
+      summary: Create a School (Superadmin Only)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Ammar School"
+                address:
+                  type: string
+                  example: "Ammar, Cairo"
+      responses:
+        '201':
+          description: School created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: ""
+                  errors:
+                    type: array
+                    example: []
+                  data:
+                    type: object
+                    properties:
+                      school:
+                        $ref: '#/components/schemas/School'
+    get:
+      tags:
+        - Schools
+      summary: Get All Schools (Superadmin and School Admin)
+      responses:
+        '200':
+          description: A list of schools
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: ""
+                  errors:
+                    type: array
+                    example: [ ]
+                  data:
+                    type: object
+                    properties:
+                      schools:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/School'
+  /schools/{id}:
+    get:
+      tags:
+        - Schools
+      summary: Get a Single School (Superadmin and School Admin)
+      parameters:
+        - in: path
+          name: id
+          example: "65ecae8d80a89b0f5e7b35a8"
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Single school details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: ""
+                  errors:
+                    type: array
+                    example: [ ]
+                  data:
+                    type: object
+                    properties:
+                      school:
+                        $ref: '#/components/schemas/School'
+    put:
+      tags:
+        - Schools
+      summary: Update a School (Superadmin Only)
+      parameters:
+        - in: path
+          name: id
+          example: "65ecaa795c91b85d5a4e57ff"
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Ammar"
+                address:
+                  type: string
+                  example: "Ammar"
+      responses:
+        '200':
+          description: School updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: ""
+                  errors:
+                    type: array
+                    example: [ ]
+                  data:
+                    type: object
+                    properties:
+                      school:
+                        $ref: '#/components/schemas/School'
+    delete:
+      tags:
+        - Schools
+      summary: Delete a School (Superadmin Only)
+      parameters:
+        - in: path
+          name: id
+          example: "65ecaa795c91b85d5a4e57ff"
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: School deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "School successfully deleted."
+                  errors:
+                    type: array
+                    example: [ ]
+                  data:
+                    type: object
+  /classrooms:
+    post:
+      tags:
+        - Classrooms
+      summary: Create a Classroom (School Admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "a"
+                capacity:
+                  type: number
+                  example: 20
+                school:
+                  type: string
+                  example: "65ecae8d80a89b0f5e7b35a8"
+      responses:
+        '201':
+          description: Classroom created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: ""
+                  errors:
+                    type: array
+                    example: [ ]
+                  data:
+                    type: object
+                    properties:
+                      classroom:
+                        $ref: '#/components/schemas/Classroom'
+  /classrooms/school/{id}:
+    get:
+      tags:
+        - Classrooms
+      summary: Get Classrooms by School (School Admin)
+      parameters:
+        - in: path
+          name: id
+          required: true
+          example: "65ecae8d80a89b0f5e7b35a8"
+          schema:
+            type: string
+      responses:
+        '200':
+          description: An array of classrooms within the specified school
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: ""
+                  errors:
+                    type: array
+                    example: [ ]
+                  data:
+                    type: object
+                    properties:
+                      classrooms:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Classroom'
+  /classrooms/{id}:
+    put:
+      tags:
+        - Classrooms
+      summary: Update a Classroom (School Admin)
+      parameters:
+        - in: path
+          name: id
+          example: "65ecbbabc820bbc12bb31cb6"
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "av2"
+                capacity:
+                  type: number
+                  example: 25
+      responses:
+        '200':
+          description: Classroom updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: ""
+                  errors:
+                    type: array
+                    example: [ ]
+                  data:
+                    type: object
+                    properties:
+                      classroom:
+                        $ref: '#/components/schemas/Classroom'
+    delete:
+      tags:
+        - Classrooms
+      summary: Delete a Classroom (School Admin)
+      parameters:
+        - in: path
+          name: id
+          example: "65ecbc9dd15007dd75119d05"
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Classroom deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Classroom successfully deleted."
+                  errors:
+                    type: array
+                    example: [ ]
+                  data:
+                    type: object
+  /students:
+    post:
+      tags:
+        - Students
+      summary: Create a Student (School Admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "ali"
+                age:
+                  type: number
+                  example: 25
+                classroom:
+                  type: string
+                  example: "65ecbbabc820bbc12bb31cb6"
+      responses:
+        '201':
+          description: Student created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: ""
+                  errors:
+                    type: array
+                    example: [ ]
+                  data:
+                    type: object
+                    properties:
+                      student:
+                        $ref: '#/components/schemas/Student'
+  /students/classroom/{classroomId}:
+    get:
+      tags:
+        - Students
+      summary: Get Students by Classroom (School Admin)
+      parameters:
+        - in: path
+          name: classroomId
+          example: "65ecbbabc820bbc12bb31cb6"
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: An array of students within the specified classroom
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: ""
+                  errors:
+                    type: array
+                    example: [ ]
+                  data:
+                    type: object
+                    properties:
+                      students:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Student'
+  /students/{id}:
+    put:
+      tags:
+        - Students
+      summary: Update a Student (School Admin)
+      parameters:
+        - in: path
+          name: id
+          example: "65ecbef5f4c733407e426fe5"
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "aliv2"
+                age:
+                  type: number
+                  example: 29
+      responses:
+        '200':
+          description: Student updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: ""
+                  errors:
+                    type: array
+                    example: [ ]
+                  data:
+                    type: object
+                    properties:
+                      student:
+                        $ref: '#/components/schemas/Student'
+    delete:
+      tags:
+        - Students
+      summary: Delete a Student (School Admin)
+      parameters:
+        - in: path
+          name: id
+          example: "65ecbef5f4c733407e426fe5"
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Student deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Student successfully deleted."
+                  errors:
+                    type: array
+                    example: [ ]
+                  data:
+                    type: object
+
+
+components:
+  schemas:
+    School:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "65ecaa795c91b85d5a4e57ff"
+        name:
+          type: string
+          example: "Ammar School"
+        address:
+          type: string
+          example: "Ammar, Cairo"
+    Classroom:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "65ecbbabc820bbc12bb31cb6"
+        name:
+          type: string
+          example: "a"
+        capacity:
+          type: number
+          example: 20
+        schoolId:
+          type: string
+          example: "65ecae8d80a89b0f5e7b35a8"
+    Student:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "65ecbef5f4c733407e426fe5"
+        name:
+          type: string
+          example: "ali"
+        age:
+          type: number
+          example: 25
+        classroomId:
+          type: string
+          example: "65ecbbabc820bbc12bb31cb6"
+    User:
+      type: object
+      properties:
+        username:
+          type: string
+          example: "alifadda"
+        email:
+          type: string
+          example: "alifadda@mail.com"
+        role:
+          type: string
+          example: "schooladmin"

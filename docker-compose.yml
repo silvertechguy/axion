@@ -1,0 +1,37 @@
+version: '3.9'
+
+services:
+  redis_db:
+    image: redis
+    container_name: redis_db_container
+    ports:
+      - "6379:6379"
+
+  mongo_db:
+    image: mongo:latest
+    container_name: mongo_db_container
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_db:/data/db
+
+  api:
+    build: .
+    container_name: node_api_container
+    ports:
+      - "5111:5111"
+    volumes:
+      - .:/usr/src/app
+    depends_on:
+      - redis_db
+      - mongo_db
+    environment:
+      LONG_TOKEN_SECRET: "LONG_TOKEN_SECRET"
+      SHORT_TOKEN_SECRET: "SHORT_TOKEN_SECRET"
+      NACL_SECRET: "NACL_SECRET"
+      MONGO_URI: "mongodb://mongo_db_container:27017/axion"
+      REDIS_URI: "redis://redis_db_container:6379"
+
+volumes:
+  mongo_db:

@@ -1,20 +1,16 @@
 module.exports = {
-    createUser: [
+    createStudent: [
         {
-            model: 'username',
-            required: true,
-        },
-    ],
-    login: [
-        {
-            model: 'email',
+            model: 'name',
             required: true,
         },
         {
-            model: 'password',
+            model: 'age',
+            required: true,
+        },
+        {
+            model: 'classroom',
             required: true,
         },
     ],
 }
-
-

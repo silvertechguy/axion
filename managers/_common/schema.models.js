@@ -4,7 +4,7 @@ module.exports = {
     id: {
         path: "id",
         type: "string",
-        length: { min: 1, max: 50 },
+        length: {min: 1, max: 50},
     },
     username: {
         path: 'username',
@@ -20,7 +20,7 @@ module.exports = {
     email: {
         path: 'email',
         type: 'string',
-        length: {min:3, max: 100},
+        length: {min: 3, max: 100},
     },
     title: {
         path: 'title',
@@ -35,12 +35,12 @@ module.exports = {
     shortDesc: {
         path: 'desc',
         type: 'string',
-        length: {min:3, max: 300}
+        length: {min: 3, max: 300}
     },
     longDesc: {
         path: 'desc',
         type: 'string',
-        length: {min:3, max: 2000}
+        length: {min: 3, max: 2000}
     },
     url: {
         path: 'url',
@@ -67,33 +67,33 @@ module.exports = {
     },
     text: {
         type: 'String',
-        length: {min: 3, max:15},
+        length: {min: 3, max: 15},
     },
     longText: {
         type: 'String',
-        length: {min: 3, max:250},
+        length: {min: 3, max: 250},
     },
     paragraph: {
         type: 'String',
-        length: {min: 3, max:10000},
+        length: {min: 3, max: 10000},
     },
     phone: {
         type: 'String',
         length: 13,
     },
-    email: {
-        type: 'String',
-        regex: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-    },
+    // email: {
+    //     type: 'String',
+    //     regex: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+    // },
     number: {
         type: 'Number',
-        length: {min: 1, max:6},
+        length: {min: 1, max: 6},
     },
     arrayOfStrings: {
         type: 'Array',
         items: {
             type: 'String',
-            length: { min: 3, max: 100}
+            length: {min: 3, max: 100}
         }
     },
     obj: {
@@ -101,5 +101,29 @@ module.exports = {
     },
     bool: {
         type: 'Boolean',
+    },
+    name: {
+        path: "name",
+        type: "string",
+    },
+    address: {
+        path: "address",
+        type: "string",
+    },
+    capacity: {
+        path: "capacity",
+        type: "number",
+    },
+    school: {
+        path: "school",
+        type: "string",
+    },
+    age: {
+        path: "age",
+        type: "number",
+    },
+    classroom: {
+        path: "classroom",
+        type: "string",
     },
 }

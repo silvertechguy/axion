@@ -1,0 +1,97 @@
+###
+POST {{host}}/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "aliuser",
+  "password": "alipassword",
+  "role": "adasdasd",
+  "email": "aliemail5"
+}
+
+###
+POST {{host}}/api/auth/login
+Content-Type: application/json
+
+{
+  "password": "alipassword",
+  "email": "aliemail4"
+}
+
+###
+POST {{host}}/api/schools
+Content-Type: application/json
+
+{
+  "name": "schoolname",
+  "address": "schooladdress"
+}
+
+###
+GET {{host}}/api/schools
+
+###
+GET {{host}}/api/schools/65ec78b366ace8ba82cb6871
+
+###
+PUT {{host}}/api/schools/65ec78b366ace8ba82cb6871
+Content-Type: application/json
+
+{
+  "name": "schoolnameUP",
+  "address": "schooladdressUP"
+}
+
+###
+DELETE {{host}}/api/schools/65ec78b366ace8ba82cb6871
+
+###
+POST {{host}}/api/classrooms
+Content-Type: application/json
+
+{
+  "name": "schoolname",
+  "capacity": 100,
+  "school": "65ec78b366ace8ba82cb6879"
+}
+
+###
+GET {{host}}/api/classrooms/school/65ec78b366ace8ba82cb6879
+
+###
+PUT {{host}}/api/classrooms/65ec78b366ace8ba82cb6871
+Content-Type: application/json
+
+{
+  "name": "schoolnameUP",
+  "address": "schooladdressUP"
+}
+
+###
+DELETE {{host}}/api/classrooms/65ec78b366ace8ba82cb6871
+
+###
+POST {{host}}/api/students
+Content-Type: application/json
+
+{
+  "name": "studentname",
+  "age": 100,
+  "classroom": "65ec78b366ace8ba82cb6879"
+}
+
+###
+GET {{host}}/api/students/classroom/65ec78b366ace8ba82cb6879
+
+###
+PUT {{host}}/api/students/65eca519c6367f6da6c6bcae
+Content-Type: application/json
+
+{
+  "name": "schoolnameUP"
+}
+
+###
+DELETE {{host}}/api/students/65eca519c6367f6da6c6bcae
+
+
